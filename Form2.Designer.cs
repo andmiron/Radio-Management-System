@@ -107,6 +107,7 @@
             ReportsSaveButton = new Button();
             ReportsCalendar = new MonthCalendar();
             ReportsDataGridView = new DataGridView();
+            PrintReportButton = new Button();
             AppTabControl.SuspendLayout();
             StationsTabPage.SuspendLayout();
             groupBox9.SuspendLayout();
@@ -927,6 +928,7 @@
             // 
             // tabPage2
             // 
+            tabPage2.Controls.Add(PrintReportButton);
             tabPage2.Controls.Add(label22);
             tabPage2.Controls.Add(ReportsSaveButton);
             tabPage2.Controls.Add(ReportsCalendar);
@@ -973,6 +975,16 @@
             ReportsDataGridView.RowHeadersWidth = 51;
             ReportsDataGridView.Size = new Size(938, 262);
             ReportsDataGridView.TabIndex = 0;
+            // 
+            // PrintReportButton
+            // 
+            PrintReportButton.Location = new Point(546, 190);
+            PrintReportButton.Name = "PrintReportButton";
+            PrintReportButton.Size = new Size(94, 29);
+            PrintReportButton.TabIndex = 4;
+            PrintReportButton.Text = "Print";
+            PrintReportButton.UseVisualStyleBackColor = true;
+            PrintReportButton.Click += PrintReportButton_Click;
             // 
             // RADIO
             // 
@@ -1109,5 +1121,6 @@
         private DataGridView ReportsDataGridView;
         private Label label22;
         private Button ReportsSaveButton;
+        private Button PrintReportButton;
     }
 }

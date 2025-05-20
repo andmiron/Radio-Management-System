@@ -4,6 +4,7 @@ using PublicUtilities;
 using OfficeOpenXml;
 using System.IO;
 using System.Windows.Forms;
+using System.Drawing.Printing;
 
 namespace PublicUtilitiesLoginScreen
 {
@@ -446,6 +447,66 @@ namespace PublicUtilitiesLoginScreen
             {
                 ExportToExcelEPPlus(ReportsDataGridView, saveFileDialog.FileName);
             }
+        }
+
+        private void PrintDataGridView(DataGridView dataGridView)
+        {
+            PrintDocument printDoc = new PrintDocument();
+
+            printDoc.PrintPage += (sender, e) => PrintPage(sender, e, dataGridView);
+
+            PrintPreviewDialog printPreviewDialog = new PrintPreviewDialog
+            {
+                Document = printDoc,
+                Width = 600,
+                Height = 800,
+                StartPosition = FormStartPosition.CenterScreen
+            };
+
+            printPreviewDialog.ShowDialog();
+        }
+
+        private void PrintPage(object sender, PrintPageEventArgs e, DataGridView dataGridView)
+        {
+            int startX = 10;
+            int startY = 10;
+            int cellHeight = 40;
+            int cellWidth = 150;
+            Font headerFont = new Font("Arial", 10, FontStyle.Bold);
+            Font textFont = new Font("Arial", 9);
+
+            for (int i = 0; i < dataGridView.Columns.Count; i++)
+            {
+                e.Graphics.DrawString(
+                    dataGridView.Columns[i].HeaderText,
+                    headerFont,
+                    Brushes.Black,
+                    startX + (i * cellWidth),
+                    startY
+                );
+            }
+
+            for (int i = 0; i < dataGridView.Rows.Count; i++)
+            {
+                for (int j = 0; j < dataGridView.Columns.Count; j++)
+                {
+                    string cellValue = dataGridView.Rows[i].Cells[j].Value?.ToString() ?? "";
+                    e.Graphics.DrawString(
+                        cellValue,
+                        textFont,
+                        Brushes.Black,
+                        startX + (j * cellWidth),
+                        startY + ((i + 1) * cellHeight)
+                    );
+                }
+            }
+            e.HasMorePages = false;
+        }
+
+
+        private void PrintReportButton_Click(object sender, EventArgs e)
+        {
+            PrintDataGridView(ReportsDataGridView);
         }
     }
 }
